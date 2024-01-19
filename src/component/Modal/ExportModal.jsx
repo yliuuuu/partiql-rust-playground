@@ -3,6 +3,7 @@ import React, {useContext} from "react";
 import AppContext from "../../store/app-context";
 import {useLocation, useSearchParams} from "react-router-dom";
 import {encodeSearchParams} from "../../util/util";
+import init, {generate_session} from "../../../pkg-web";
 
 
 const style = {
