@@ -1,9 +1,8 @@
 import {Alert, Box, Button, Modal, Typography} from "@mui/material";
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import AppContext from "../../store/app-context";
-import {useLocation, useSearchParams} from "react-router-dom";
-import {encodeSearchParams} from "../../util/util";
-import init, {generate_session} from "../../../pkg-web";
+import {useLocation} from "react-router-dom";
+import {encodeSession} from "../../util/util";
 
 
 const style = {
@@ -20,13 +19,14 @@ const style = {
 export function ExportModal(props) {
     const appContext = useContext(AppContext);
     const [open, setOpen] = React.useState(appContext.showModal);
+    const [url, setUrl] = React.useState('')
     const location = useLocation()
     const handleClose = () => {
         setOpen(false);
         appContext.setShowModal(false)
     }
 
-    function setUrl() {
+    useEffect( () => {
         const str = window.location.href,
             rest = str.substring(0, str.lastIndexOf("/"))
 
@@ -37,8 +37,11 @@ export function ExportModal(props) {
         if (props.query !== undefined) {
             params['query'] = props.query
         }
-        return rest + location.pathname + "?session=" + encodeSearchParams(params)
-    }
+
+        encodeSession(params).then((session) => {
+            setUrl(rest + location.pathname + "?session=" + session)
+        })
+    })
 
 
     return (
@@ -51,12 +54,12 @@ export function ExportModal(props) {
             >
                 <Box sx={style}>
                     <Alert severity="warning">Do not use the link to store data. </Alert>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" style={{ wordWrap: "break-word" }}>
-                        {setUrl()}
+                    <Typography id="modal-modal-title" variant="h6" component="h2" style={{wordWrap: "break-word"}}>
+                        {url}
                     </Typography>
                     <Button
                         onClick={() => {
-                            navigator.clipboard.writeText(setUrl())
+                            navigator.clipboard.writeText(url)
                             handleClose()
                         }}
                     >

@@ -1,5 +1,5 @@
 import {dumpText, load} from "ion-js";
-import init, {generate_session} from "../../pkg-web";
+import init, {decode_session_as_array, generate_session} from "../../pkg-web";
 
 export function encodeSearchParams(params) {
     const searchParam = {}
@@ -24,38 +24,27 @@ export function decodeSearchParams(params) {
     return searchParam
 }
 
-export async function encodeSession() {
-    const env = () => {
-        if (props.env === undefined)
-            return ""
-        else
-            return props.env
-    }
+export async function encodeSession(params) {
 
-    const query = () => {
-        if (props.query === undefined)
-            return ""
-        else
-            return props.query
-    }
+    console.log("during encode, env: is " + params.env + "query is " + params.query)
 
     const res = await init()
         .then(() => {
-            generate_session("", query(), env())
+            return generate_session("", params.query, params.env)
         })
-    console.log(res)
+
+    console.log("res is " + res)
 
     return res
 }
 
 
-export async function decodeSession() {
+export async function decodeSession(session) {
 
     const res = await init()
         .then(() => {
-            generate_session("", query(), env())
+            return decode_session_as_array(session)
         })
-    console.log(res)
 
     return res
 }

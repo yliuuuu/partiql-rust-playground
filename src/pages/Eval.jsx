@@ -6,7 +6,7 @@ import EvalResponse from "../component/Response/EvalResponse";
 import React, {useContext, useEffect, useRef, useState} from "react";
 import AppContext from "../store/app-context";
 import {useLocation} from "react-router-dom";
-import {decodeSearchParams} from "../util/util";
+import {decodeSearchParams, decodeSession} from "../util/util";
 import Topbar from "../component/Layout/Topbar";
 import {Alert, Box} from "@mui/material";
 import {ExportModal} from "../component/Modal/ExportModal";
@@ -28,9 +28,11 @@ function EvalPage() {
         const searchParam = location.search
         if (searchParam === '') return
         const session = new URLSearchParams(searchParam).get("session")
-        const params = decodeSearchParams(session)
-        appContext.changeEnv(params.env)
-        appContext.changeQuery(params.query)
+        decodeSession(session).then((params) => {
+            console.log("params " + params)
+            appContext.changeEnv(params[2])
+            appContext.changeQuery(params[1])
+        })
     }, [])
 
     function noResponseState() {

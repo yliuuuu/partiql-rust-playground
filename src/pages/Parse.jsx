@@ -7,7 +7,7 @@ import SplitPane from "react-split-pane";
 import {Alert, Box} from "@mui/material";
 import Topbar from "../component/Layout/Topbar";
 import {ExportModal} from "../component/Modal/ExportModal";
-import {decodeSearchParams} from "../util/util";
+import {decodeSearchParams, decodeSession} from "../util/util";
 
 function ParsePage() {
     const appContext = useContext(AppContext);
@@ -20,7 +20,11 @@ function ParsePage() {
         const searchParam = location.search
         if (searchParam === '') return
         const session = new URLSearchParams(searchParam).get("session")
-        const params = decodeSearchParams(session)
+        const params = decodeSession(session)
+        const env = params[1]
+        const query = params[2]
+        console.log(env)
+        console.log(query)
         appContext.changeEnv(params.env)
         appContext.changeQuery(params.query)
     }, [])
