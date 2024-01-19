@@ -6,7 +6,7 @@ import EvalResponse from "../component/Response/EvalResponse";
 import React, {useContext, useEffect, useRef, useState} from "react";
 import AppContext from "../store/app-context";
 import {useLocation} from "react-router-dom";
-import {decodeSearchParams, decodeSession} from "../util/util";
+import {decodeSession} from "../util/util";
 import Topbar from "../component/Layout/Topbar";
 import {Alert, Box} from "@mui/material";
 import {ExportModal} from "../component/Modal/ExportModal";
@@ -29,9 +29,10 @@ function EvalPage() {
         if (searchParam === '') return
         const session = new URLSearchParams(searchParam).get("session")
         decodeSession(session).then((params) => {
-            console.log("params " + params)
-            appContext.changeEnv(params[2])
-            appContext.changeQuery(params[1])
+            appContext.changeQuery(params[0])
+            appContext.changeEnv(params[1])
+        }).catch((error) => {
+            appContext.changeQuery(error)
         })
     }, [])
 
@@ -84,12 +85,14 @@ function EvalPage() {
     }
 
     return (
-        <Box sx={{width: "100%", height: "100%", display: 'flex',
-            flexDirection: 'column'}}
-            >
+        <Box sx={{
+            width: "100%", height: "100%", display: 'flex',
+            flexDirection: 'column'
+        }}
+        >
             <Alert severity="warning" sx={{mb: 1}}>The sandbox is in the experimental stage. </Alert>
             <Topbar op={OPERATION.EVAL}></Topbar>
-            <Box sx={{width: "100%", height: "100%", mt:2}}>
+            <Box sx={{width: "100%", height: "100%", mt: 2}}>
                 {appContext.needResponse === false ? noResponseState() : withResponseState()}
             </Box>
             {appContext.showModal && <ExportModal query={appContext.query} env={appContext.env}/>}

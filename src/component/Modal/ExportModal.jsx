@@ -26,19 +26,11 @@ export function ExportModal(props) {
         appContext.setShowModal(false)
     }
 
-    useEffect( () => {
+    useEffect(() => {
         const str = window.location.href,
             rest = str.substring(0, str.lastIndexOf("/"))
 
-        let params = {}
-        if (props.env !== undefined) {
-            params['env'] = props.env
-        }
-        if (props.query !== undefined) {
-            params['query'] = props.query
-        }
-
-        encodeSession(params).then((session) => {
+        encodeSession(props.query, props.env).then((session) => {
             setUrl(rest + location.pathname + "?session=" + session)
         })
     })

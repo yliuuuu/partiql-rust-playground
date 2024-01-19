@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
-export function generate_session(a: number, b: number, c: number, d: number, e: number, f: number, g: number): void;
+export function generate_session(a: number, b: number, c: number, d: number, e: number): void;
 export function decode_session_as_array(a: number, b: number): number;
 export function parse_as_json(a: number, b: number, c: number): void;
 export function eval_as_json(a: number, b: number, c: number, d: number, e: number): void;

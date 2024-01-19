@@ -29,6 +29,7 @@ make build
 3. Port the wasm files to `react wesbite` branch
 ```commandline
 git checkout -b temp
+make buid
 rm pkg-web/.gitignore
 git add .
 git commit -m "adding pkg-web to git"
