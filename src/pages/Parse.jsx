@@ -23,7 +23,6 @@ function ParsePage() {
         if (searchParam === '') return
         const session = new URLSearchParams(searchParam).get("session")
         decodeSession(session).then((params) => {
-            console.log(params[0])
             appContext.changeQuery(params[0])
         }).catch((error) => {
             appContext.changeQuery(error)
