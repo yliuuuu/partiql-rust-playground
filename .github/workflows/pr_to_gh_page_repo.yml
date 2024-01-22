@@ -31,46 +31,36 @@ jobs:
           name: id_rsa
           known_hosts: unnecessary
 
-      - name: Send pull-request
+      - name: checkout github page repo
+        uses: actions/checkout@v4
+        with:
+          repository: 'partiql/partiql.github.io'
+          ref: 'main'
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: port changes
         run: |
-          REPOSITORY="partiql.github.io"
-          FOLDER="bin/$REPOSITORY"
-          BRANCH_NAME="Update-Playground"
-          
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > key
-          gh ssh-key add key
-
-          git clone git@github.com:partiql/partiql.github.io.git $FOLDER
-          
-          echo "clone completed"
-
-          cd $FOLDER
-          
-          ls
-
           # Setup the committers identity.
           git config user.email "partiql-dev@amazon.com"
           git config user.name "PartiQL Team"
-
-          # Create a new feature branch for the changes.
-          git checkout -b $BRANCH_NAME
-
-          # Remove Static Folder
+          
+          # port in the changes
           rm -r ui/src/static
           mkdir ui/src/static
           cp $GITHUB_WORKSPACE/artifact/*.wasm ui/src/static
           cp $GITHUB_WORKSPACE/artifact/*.js ui/src/static
           cp $GITHUB_WORKSPACE/artifact/playground.js.LICENSE.txt ui/playground.js.LICENSE.txt
-
-          # Commit the changes and push the feature branch to origin
+          
           git add .
-          git commit -m "update playground"
-          git push origin $BRANCH_NAME
 
-          gh pr create \
-            --body "Port From ${{ github.head_ref }}. Commit:  ${{ github.sha }}" \
-            --title "Update Playground" \
-            --head "$BRANCH_NAME" \
-            --base "main"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: create pull-request
+        uses: peter-evans/create-pull-request@v5
+        run: |
+          commit-message: Update report
+          committer: PartiQL Team <partiql-dev@amazon.com>
+          branch: update-playground
+          delete-branch: true
+          title: 'Update Playground'
+          body: |
+            Update Playground
+            From Repo: [], branch: [], commit id: []
