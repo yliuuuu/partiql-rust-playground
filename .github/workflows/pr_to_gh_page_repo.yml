@@ -55,7 +55,7 @@ jobs:
 
       - name: create pull-request
         uses: peter-evans/create-pull-request@v5
-        run: |
+        with:
           commit-message: Update report
           committer: PartiQL Team <partiql-dev@amazon.com>
           branch: update-playground
