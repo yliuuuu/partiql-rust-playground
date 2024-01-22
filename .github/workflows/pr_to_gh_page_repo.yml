@@ -36,6 +36,9 @@ jobs:
           REPOSITORY="partiql.github.io"
           FOLDER="bin/$REPOSITORY"
           BRANCH_NAME="Update-Playground"
+          
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > key
+          gh ssh-key add key
 
           git clone git@github.com:partiql/partiql.github.io.git $FOLDER
           
