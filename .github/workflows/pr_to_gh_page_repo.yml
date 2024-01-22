@@ -24,6 +24,12 @@ jobs:
           cp dist/*.txt $GITHUB_WORKSPACE/artifact
           ls $GITHUB_WORKSPACE/artifact >> $GITHUB_STEP_SUMMARY
 
+      - name: set up SSH
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          name: id_rsa
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
       - name: Send pull-request
         run: |
