@@ -67,7 +67,7 @@ jobs:
           # create a pull-requests containing the updates.
           gh auth login --with-token < token.txt
           gh pr create \
-            --body "" \
+            --body "Port From ${{ github.head_ref }}. Commit:  ${{ github.sha }}" \
             --title "Update Playground" \
             --head "$BRANCH_NAME" \
             --base "main"
