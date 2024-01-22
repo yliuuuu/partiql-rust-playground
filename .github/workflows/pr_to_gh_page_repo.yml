@@ -33,7 +33,7 @@ jobs:
 
       - name: Send pull-request
         run: |
-          REPOSITORY="partiql/partiql.github.io"
+          REPOSITORY="partiql.github.io"
           FOLDER="bin/$REPOSITORY"
           BRANCH_NAME="Update-Playground"
 
@@ -42,6 +42,8 @@ jobs:
           echo "clone completed"
 
           cd $FOLDER
+          
+          ls
 
           # Setup the committers identity.
           git config user.email "partiql-dev@amazon.com"
@@ -51,7 +53,7 @@ jobs:
           git checkout -b $BRANCH_NAME
 
           # Remove Static Folder
-          rm -rf $FOLDER/ui/src/static
+          rm -r $FOLDER/ui/src/static
           mkdir $FOLDER/ui/src/static
           cp $GITHUB_WORKSPACE/artifact/*.wasm $FOLDER/ui/src/static
           cp $GITHUB_WORKSPACE/artifact/*.js $FOLDER/ui/src/static
