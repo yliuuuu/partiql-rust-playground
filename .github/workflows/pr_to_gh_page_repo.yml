@@ -18,11 +18,11 @@ jobs:
 
       - name: copy Bundle
         run: |
-          mkdir -p ~/home/artifact
-          cp dist/*.wasm $GITHUB_WORKSPACE/artifact
-          cp dist/*.js $GITHUB_WORKSPACE/artifact
-          cp dist/*.txt $GITHUB_WORKSPACE/artifact
-          ls ~/home/artifact >> $GITHUB_STEP_SUMMARY
+          mkdir -p ~/artifact
+          cp dist/*.wasm ~/artifact
+          cp dist/*.js ~/artifact
+          cp dist/*.txt ~/artifact
+          ls ~/artifact >> $GITHUB_STEP_SUMMARY
 
       - name: set up SSH
         uses: shimataro/ssh-key-action@v2
@@ -47,9 +47,9 @@ jobs:
           # port in the changes
           rm -r ui/src/static
           mkdir ui/src/static
-          cp ~/home/artifact/*.wasm ui/src/static
-          cp ~/home/artifact/*.js ui/src/static
-          cp ~/home/artifact/playground.js.LICENSE.txt ui/playground.js.LICENSE.txt
+          cp ~/artifact/*.wasm ui/src/static
+          cp ~/artifact/*.js ui/src/static
+          cp ~/artifact/playground.js.LICENSE.txt ui/playground.js.LICENSE.txt
           
           git add .
 
