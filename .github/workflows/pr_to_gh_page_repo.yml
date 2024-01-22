@@ -53,11 +53,11 @@ jobs:
           git checkout -b $BRANCH_NAME
 
           # Remove Static Folder
-          rm -r $FOLDER/ui/src/static
-          mkdir $FOLDER/ui/src/static
-          cp $GITHUB_WORKSPACE/artifact/*.wasm $FOLDER/ui/src/static
-          cp $GITHUB_WORKSPACE/artifact/*.js $FOLDER/ui/src/static
-          cp $GITHUB_WORKSPACE/artifact/playground.js.LICENSE.txt  $FOLDER/ui/playground.js.LICENSE.txt
+          rm -r ui/src/static
+          mkdir ui/src/static
+          cp $GITHUB_WORKSPACE/artifact/*.wasm ui/src/static
+          cp $GITHUB_WORKSPACE/artifact/*.js ui/src/static
+          cp $GITHUB_WORKSPACE/artifact/playground.js.LICENSE.txt ui/playground.js.LICENSE.txt
 
           # Commit the changes and push the feature branch to origin
           git add .
